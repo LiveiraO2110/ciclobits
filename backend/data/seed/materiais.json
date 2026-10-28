@@ -1,0 +1,121 @@
+[
+  {
+    "codigo": "M001",
+    "descricao": "Quadro de bicicleta urbana aro 26",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 12
+  },
+  {
+    "codigo": "M002",
+    "descricao": "Quadro MTB aro 29",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 15
+  },
+  {
+    "codigo": "M003",
+    "descricao": "Quadro infantil aro 20",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 12
+  },
+  {
+    "codigo": "M004",
+    "descricao": "Roda aro 26 montada",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M005",
+    "descricao": "Roda aro 29 montada",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 12
+  },
+  {
+    "codigo": "M006",
+    "descricao": "Roda aro 20 montada",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M007",
+    "descricao": "Kit transmissão urbana",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 8
+  },
+  {
+    "codigo": "M008",
+    "descricao": "Kit transmissão MTB",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 12
+  },
+  {
+    "codigo": "M009",
+    "descricao": "Kit transmissão infantil",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 8
+  },
+  {
+    "codigo": "M010",
+    "descricao": "Guidão universal",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M011",
+    "descricao": "Selim universal",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M012",
+    "descricao": "Kit freios V-brake",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 9
+  },
+  {
+    "codigo": "M013",
+    "descricao": "Kit freios a disco",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 14
+  },
+  {
+    "codigo": "M014",
+    "descricao": "Tinta em pó para acabamento",
+    "tipo": "materia_prima",
+    "unidade_medida": "KG",
+    "prazo_reposicao_dias": 6
+  },
+  {
+    "codigo": "M015",
+    "descricao": "Caixa de papelão para bicicleta",
+    "tipo": "embalagem",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 5
+  },
+  {
+    "codigo": "M016",
+    "descricao": "Parafusos e fixadores",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 4
+  },
+  {
+    "codigo": "M017",
+    "descricao": "Garfo com suspensão MTB",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 15
+  }
+]

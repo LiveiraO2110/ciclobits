@@ -1,0 +1,92 @@
+[
+  {
+    "numero": "PED-0001",
+    "cliente": "Loja Pedal Livre",
+    "produto": "P001",
+    "quantidade": 5,
+    "data_pedido": "2026-10-25",
+    "data_entrega": "2026-11-08",
+    "prioridade": "normal",
+    "status": "pendente"
+  },
+  {
+    "numero": "PED-0002",
+    "cliente": "Trilhas do Sul",
+    "produto": "P002",
+    "quantidade": 20,
+    "data_pedido": "2026-10-24",
+    "data_entrega": "2026-11-12",
+    "prioridade": "alta",
+    "status": "pendente"
+  },
+  {
+    "numero": "PED-0003",
+    "cliente": "Ciclo Center",
+    "produto": "P003",
+    "quantidade": 10,
+    "data_pedido": "2026-10-20",
+    "data_entrega": "2026-11-05",
+    "prioridade": "normal",
+    "status": "em_producao"
+  },
+  {
+    "numero": "PED-0004",
+    "cliente": "Bike House",
+    "produto": "P001",
+    "quantidade": 10,
+    "data_pedido": "2026-10-08",
+    "data_entrega": "2026-10-23",
+    "prioridade": "normal",
+    "status": "atendido"
+  },
+  {
+    "numero": "PED-0005",
+    "cliente": "Esporte Total",
+    "produto": "P002",
+    "quantidade": 5,
+    "data_pedido": "2026-10-23",
+    "data_entrega": "2026-11-18",
+    "prioridade": "baixa",
+    "status": "pendente"
+  },
+  {
+    "numero": "PED-0006",
+    "cliente": "Pedal Kids",
+    "produto": "P003",
+    "quantidade": 5,
+    "data_pedido": "2026-10-22",
+    "data_entrega": "2026-11-14",
+    "prioridade": "normal",
+    "status": "cancelado"
+  },
+  {
+    "numero": "PED-0007",
+    "cliente": "Mobilidade Urbana",
+    "produto": "P001",
+    "quantidade": 15,
+    "data_pedido": "2026-10-26",
+    "data_entrega": "2026-11-25",
+    "prioridade": "alta",
+    "status": "pendente"
+  },
+  {
+    "numero": "PED-0008",
+    "cliente": "Aventura Bikes",
+    "produto": "P002",
+    "quantidade": 10,
+    "data_pedido": "2026-10-21",
+    "data_entrega": "2026-11-16",
+    "prioridade": "alta",
+    "status": "em_producao"
+  },
+  {
+    "numero": "PED-0009",
+    "cliente": "Loja Giro Rápido",
+    "produto": "P003",
+    "quantidade": 5,
+    "data_pedido": "2026-10-26",
+    "data_entrega": "2026-11-20",
+    "prioridade": "baixa",
+    "status": "pendente"
+  }
+]

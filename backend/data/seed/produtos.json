@@ -1,0 +1,74 @@
+[
+  {
+    "codigo": "P001",
+    "descricao": "Bicicleta Urbana Aro 26",
+    "unidade_medida": "UN",
+    "lote_minimo": 5,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R01",
+        "tempo_unitario_min": 12
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R03",
+        "tempo_unitario_min": 35
+      },
+      {
+        "sequencia": 3,
+        "recurso": "R04",
+        "tempo_unitario_min": 10
+      }
+    ]
+  },
+  {
+    "codigo": "P002",
+    "descricao": "Mountain Bike Aro 29",
+    "unidade_medida": "UN",
+    "lote_minimo": 5,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R01",
+        "tempo_unitario_min": 15
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R03",
+        "tempo_unitario_min": 50
+      },
+      {
+        "sequencia": 3,
+        "recurso": "R04",
+        "tempo_unitario_min": 15
+      }
+    ]
+  },
+  {
+    "codigo": "P003",
+    "descricao": "Bicicleta Infantil Aro 20",
+    "unidade_medida": "UN",
+    "lote_minimo": 5,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R01",
+        "tempo_unitario_min": 10
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R03",
+        "tempo_unitario_min": 30
+      },
+      {
+        "sequencia": 3,
+        "recurso": "R04",
+        "tempo_unitario_min": 10
+      }
+    ]
+  }
+]
