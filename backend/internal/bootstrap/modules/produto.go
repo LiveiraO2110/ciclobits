@@ -4,6 +4,6 @@ import "gorm.io/gorm"
 
 type Produto struct{}
 
-func NewProduto(db *gorm.DB) (Produto){
-	return Produto{}
+func NewProduto(db *gorm.DB) (*Produto){
+	return &Produto{}
 }

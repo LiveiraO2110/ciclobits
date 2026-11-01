@@ -4,6 +4,6 @@ import "gorm.io/gorm"
 
 type Estoque struct{}
 
-func NewEstoque(db *gorm.DB) (Estoque){
-	return Estoque{}
+func NewEstoque(db *gorm.DB) (*Estoque){
+	return &Estoque{}
 }
