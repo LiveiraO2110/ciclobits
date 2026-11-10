@@ -15,7 +15,7 @@ A aplicação permitirá acompanhar o andamento da fabricação, calcular a nece
 O projeto será desenvolvido utilizando as seguintes tecnologias:
 
 - **Backend:** Go (Golang)
-- **Frontend:** React com TypeScript
+- **Frontend:** Vue com Javascript
 - **Banco de dados:** SQLite
 - **Comunicação:** API REST
 - **Controle de versão:** Git e GitHub
