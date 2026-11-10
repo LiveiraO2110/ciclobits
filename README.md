@@ -34,7 +34,7 @@ O banco de dados SQLite será inicializado automaticamente pelo backend, não se
 ## Estrutura do projeto
 
 ```text
-velotech-pcp/
+ciclobits/
 ├── backend/
 │   ├── cmd/
 │   ├── internal/
