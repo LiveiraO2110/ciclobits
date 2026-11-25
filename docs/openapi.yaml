@@ -1,0 +1,1325 @@
+openapi: 3.0.3
+info:
+  title: CicloBits PCP API
+  version: 1.0.0
+  description: |
+    API do sistema de Planejamento e Controle da Produção (PCP) da CicloBits.
+
+    **Convenções**
+    - Nomes de campos em `snake_case`, sem acentos, iguais aos definidos em *Layout dos Arquivos JSON – Projeto PCP*.
+    - Datas no formato ISO `AAAA-MM-DD`. Quantidades nunca negativas.
+    - Campos marcados como `readOnly` são calculados pelo back-end e ignorados se enviados.
+    - "Hoje" é a **data de referência** do sistema (`GET /dashboard` → `data_referencia`), não o relógio do servidor.
+    - Erros seguem o schema `Erro`: `400` (requisição malformada), `404` (não encontrado),
+      `409` (conflito, ex.: código duplicado) e `422` (regra de negócio violada).
+
+    **Regras de negócio centrais**
+    - Necessidade de material = qtd. a produzir × `quantidade` × (1 + `perda_percentual` / 100).
+    - Saldo livre = `quantidade_disponivel` − `quantidade_reservada`.
+    - Qtd. a produzir de um pedido = `quantidade` − soma de `quantidade_produzida` das ordens vinculadas.
+    - Reserva de estoque entre pedidos: atende primeiro o de prazo (`data_entrega`) mais próximo.
+    - Ordem "atrasada" não é um status: é calculado (`data_fim_prevista` < data de referência e ordem não concluída/cancelada).
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Ambiente local
+tags:
+  - name: Dashboard
+    description: Visão geral do PCP
+  - name: Pedidos
+  - name: Produtos
+    description: Produtos acabados e estrutura (lista de materiais)
+  - name: Materiais
+  - name: Estoque
+  - name: Necessidades
+    description: Cálculo de necessidade de materiais
+  - name: Ordens de produção
+  - name: Linhas de produção
+  - name: Recursos
+  - name: Administração
+
+paths:
+  /dashboard:
+    get:
+      tags: [Dashboard]
+      summary: Visão geral do PCP
+      description: KPIs, alertas ("Precisa de atenção") e carga das linhas.
+      operationId: obterDashboard
+      responses:
+        '200':
+          description: Dados da visão geral
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+
+  /pedidos:
+    get:
+      tags: [Pedidos]
+      summary: Lista pedidos
+      description: Ordenados por `data_entrega` crescente.
+      operationId: listarPedidos
+      parameters:
+        - name: status
+          in: query
+          description: Filtra por status. Aceita vários valores separados por vírgula (ex.:`pendente,em_producao`).
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/StatusPedido'
+          style: form
+          explode: false
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PedidoDetalhe'
+    post:
+      tags: [Pedidos]
+      summary: Cria um pedido
+      operationId: criarPedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoEntrada'
+      responses:
+        '201':
+          description: Pedido criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalhe'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '409':
+          $ref: '#/components/responses/Conflito'
+        '422':
+          $ref: '#/components/responses/RegraDeNegocio'
+
+  /pedidos/{numero}:
+    parameters:
+      - $ref: '#/components/parameters/NumeroPedido'
+    get:
+      tags: [Pedidos]
+      summary: Obtém um pedido
+      operationId: obterPedido
+      responses:
+        '200':
+          description: Pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoDetalhe'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /produtos:
+    get:
+      tags: [Produtos]
+      summary: Lista produtos
+      operationId: listarProdutos
+      parameters:
+        - name: ativo
+          in: query
+          schema:
+            type: boolean
+        - name: linha
+          in: query
+          description: Código da linha de produção.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produto'
+
+  /produtos/{codigo}:
+    parameters:
+      - $ref: '#/components/parameters/CodigoProduto'
+    get:
+      tags: [Produtos]
+      summary: Obtém um produto (com roteiro)
+      operationId: obterProduto
+      responses:
+        '200':
+          description: Produto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /produtos/{codigo}/estrutura:
+    parameters:
+      - $ref: '#/components/parameters/CodigoProduto'
+    get:
+      tags: [Produtos]
+      summary: Estrutura do produto (lista de materiais)
+      description: Componentes por unidade, saldo em estoque e em quais outros produtos cada material também é usado.
+      operationId: obterEstruturaProduto
+      responses:
+        '200':
+          description: Estrutura do produto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstruturaProduto'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /produtos/{codigo}/simulacao:
+    parameters:
+      - $ref: '#/components/parameters/CodigoProduto'
+    post:
+      tags: [Produtos]
+      summary: Simula a produção de uma quantidade
+      description: |
+        Calcula o material necessário para produzir `quantidade` e compara com o saldo livre.
+        Não altera nenhum dado. Quantidade abaixo do lote mínimo é aceita, mas sinalizada.
+      operationId: simularProducao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quantidade]
+              properties:
+                quantidade:
+                  type: integer
+                  minimum: 1
+                  example: 25
+      responses:
+        '200':
+          description: Resultado da simulação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulacao'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /materiais:
+    get:
+      tags: [Materiais]
+      summary: Lista materiais
+      operationId: listarMateriais
+      parameters:
+        - name: tipo
+          in: query
+          schema:
+            $ref: '#/components/schemas/TipoMaterial'
+      responses:
+        '200':
+          description: Lista de materiais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Material'
+
+  /estoque:
+    get:
+      tags: [Estoque]
+      summary: Posição de estoque de todos os materiais
+      operationId: listarEstoque
+      responses:
+        '200':
+          description: Posição de estoque
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Estoque'
+
+  /estoque/{material}/entrada:
+    parameters:
+      - $ref: '#/components/parameters/CodigoMaterial'
+    post:
+      tags: [Estoque]
+      summary: Registra entrada de material (Adicionar estoque)
+      description: |
+        O back-end **soma** `quantidade` a `quantidade_disponivel` e atualiza `data_atualizacao`
+        para a data de referência. Não há histórico de movimentações.
+        Após a chamada o front deve recalcular as necessidades (`POST /necessidades/calcular`).
+      operationId: registrarEntradaEstoque
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quantidade]
+              properties:
+                quantidade:
+                  type: number
+                  exclusiveMinimum: true
+                  minimum: 0
+                  example: 50
+      responses:
+        '200':
+          description: Posição de estoque atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estoque'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /necessidades/calcular:
+    post:
+      tags: [Necessidades]
+      summary: Calcula necessidades de materiais para pedidos
+      description: |
+        Para cada pedido informado considera a quantidade ainda a produzir, soma a necessidade por material
+        e compara com o saldo livre, reservando primeiro para o pedido de prazo mais próximo.
+        Não altera nenhum dado.
+      operationId: calcularNecessidades
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pedidos:
+                  type: array
+                  description: Números dos pedidos a considerar. Vazio ou ausente = todos os pedidos pendentes.
+                  items:
+                    type: string
+                    example: PED-0001
+      responses:
+        '200':
+          description: Necessidades calculadas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Necessidades'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /ordens-producao:
+    get:
+      tags: [Ordens de produção]
+      summary: Lista ordens de produção
+      description: Ordenadas por linha e `sequencia_programacao`.
+      operationId: listarOrdens
+      parameters:
+        - name: linha
+          in: query
+          description: Código da linha de produção.
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/StatusOrdem'
+          style: form
+          explode: false
+        - name: pedido
+          in: query
+          description: Número do pedido vinculado.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de ordens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrdemProducao'
+    post:
+      tags: [Ordens de produção]
+      summary: Cria uma ordem de produção
+      description: |
+        Cria a ordem com status `planejada`, `quantidade_produzida` = 0 e `data_emissao` = data de referência.
+        `pedido` nulo = ordem para estoque. A ordem entra no fim da sequência da linha.
+        A ordem é aceita mesmo com falta de material (a resposta traz `aviso_material`).
+      operationId: criarOrdem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdemEntrada'
+      responses:
+        '201':
+          description: Ordem criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemProducao'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '409':
+          $ref: '#/components/responses/Conflito'
+        '422':
+          $ref: '#/components/responses/RegraDeNegocio'
+
+  /ordens-producao/{numero}:
+    parameters:
+      - $ref: '#/components/parameters/NumeroOrdem'
+    get:
+      tags: [Ordens de produção]
+      summary: Obtém uma ordem
+      operationId: obterOrdem
+      responses:
+        '200':
+          description: Ordem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemProducao'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+    patch:
+      tags: [Ordens de produção]
+      summary: Edita a programação da ordem
+      description: |
+        Altera prioridade, linha, sequência, datas, observação e/ou status. Envie apenas os campos a mudar.
+        As alterações persistem entre execuções do sistema.
+
+        **Sequência:** ao mudar `sequencia_programacao` (setas ▲▼ ou modal) o back-end reordena as demais
+        ordens abertas da mesma linha, mantendo as posições únicas e contíguas.
+        Ao mudar `linha` sem informar sequência, a ordem vai para o fim da nova linha.
+
+        **Status:** transições permitidas `planejada → liberada → em_producao → concluida` e
+        `planejada | liberada | em_producao → cancelada`. `em_producao` e `concluida` também ocorrem
+        automaticamente pelos apontamentos.
+      operationId: editarOrdem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdemAtualizacao'
+      responses:
+        '200':
+          description: Ordem atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemProducao'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        '422':
+          $ref: '#/components/responses/RegraDeNegocio'
+
+  /ordens-producao/{numero}/apontamentos:
+    parameters:
+      - $ref: '#/components/parameters/NumeroOrdem'
+    get:
+      tags: [Ordens de produção]
+      summary: Lista apontamentos de produção da ordem
+      operationId: listarApontamentos
+      responses:
+        '200':
+          description: Apontamentos, do mais antigo ao mais recente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Apontamento'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+    post:
+      tags: [Ordens de produção]
+      summary: Registra um apontamento de produção
+      description: |
+        Soma `quantidade_produzida` e `quantidade_refugada` aos totais da ordem.
+        Refugo não conta como produzido.
+        - A primeira quantidade produzida muda o status para `em_producao`.
+        - Ao completar `quantidade_planejada` a ordem vira `concluida` e `data_conclusao` recebe a `data` do apontamento.
+        - `quantidade_produzida` não pode exceder o restante da ordem.
+        - Não aceita ordens `concluida` ou `cancelada`.
+      operationId: registrarApontamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApontamentoEntrada'
+      responses:
+        '201':
+          description: Apontamento registrado; retorna a ordem já atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemProducao'
+        '400':
+          $ref: '#/components/responses/RequisicaoInvalida'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+        '422':
+          $ref: '#/components/responses/RegraDeNegocio'
+
+  /linhas-producao:
+    get:
+      tags: [Linhas de produção]
+      summary: Lista linhas com carga, etapas e ordens (calendário)
+      operationId: listarLinhas
+      responses:
+        '200':
+          description: Linhas de produção
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinhaDetalhe'
+
+  /linhas-producao/{codigo}:
+    parameters:
+      - name: codigo
+        in: path
+        required: true
+        description: Código da linha.
+        schema:
+          type: string
+          example: L1
+    get:
+      tags: [Linhas de produção]
+      summary: Obtém uma linha com carga, etapas e ordens
+      operationId: obterLinha
+      responses:
+        '200':
+          description: Linha de produção
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinhaDetalhe'
+        '404':
+          $ref: '#/components/responses/NaoEncontrado'
+
+  /recursos:
+    get:
+      tags: [Recursos]
+      summary: Lista recursos produtivos
+      operationId: listarRecursos
+      parameters:
+        - name: linha
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de recursos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recurso'
+
+  /admin/restaurar-dados:
+    post:
+      tags: [Administração]
+      summary: Restaura os dados originais (seed)
+      description: Descarta todas as alterações e recarrega os dados de partida.
+      operationId: restaurarDados
+      responses:
+        '204':
+          description: Dados restaurados
+
+components:
+  parameters:
+    NumeroPedido:
+      name: numero
+      in: path
+      required: true
+      description: Número do pedido.
+      schema:
+        type: string
+        example: PED-0001
+    NumeroOrdem:
+      name: numero
+      in: path
+      required: true
+      description: Número da ordem de produção.
+      schema:
+        type: string
+        example: OP-0001
+    CodigoProduto:
+      name: codigo
+      in: path
+      required: true
+      description: Código do produto.
+      schema:
+        type: string
+        example: P001
+    CodigoMaterial:
+      name: material
+      in: path
+      required: true
+      description: Código do material.
+      schema:
+        type: string
+        example: M001
+
+  responses:
+    RequisicaoInvalida:
+      description: Requisição malformada ou campo com tipo/valor de domínio inválido.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Erro'
+    NaoEncontrado:
+      description: Recurso não encontrado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Erro'
+    Conflito:
+      description: "Conflito com o estado atual (ex.: número já existente)."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Erro'
+    RegraDeNegocio:
+      description: Requisição válida, mas viola uma regra de negócio.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Erro'
+
+  schemas:
+    # ---------- Domínios ----------
+    Prioridade:
+      type: string
+      enum: [alta, normal, baixa]
+      description: Na interface, `normal` é exibida como "Média".
+    StatusPedido:
+      type: string
+      enum: [pendente, em_producao, atendido, cancelado]
+    StatusOrdem:
+      type: string
+      enum: [planejada, liberada, em_producao, concluida, cancelada]
+    TipoMaterial:
+      type: string
+      enum: [materia_prima, componente, embalagem]
+    SituacaoMaterial:
+      type: string
+      enum: [suficiente, abaixo_do_minimo, falta]
+      description: |
+        `falta`: saldo livre menor que a necessidade.
+        `abaixo_do_minimo`: atende, mas o saldo restante fica abaixo do `estoque_minimo`.
+    SituacaoPedidoMaterial:
+      type: string
+      enum: [atendivel, falta_material]
+
+    # ---------- Erro ----------
+    Erro:
+      type: object
+      required: [codigo, mensagem]
+      properties:
+        codigo:
+          type: string
+          description: Identificador estável do erro.
+          example: LOTE_MINIMO_NAO_ATINGIDO
+        mensagem:
+          type: string
+          example: A quantidade planejada (5) é menor que o lote mínimo do produto (10).
+        detalhes:
+          type: array
+          items:
+            type: object
+            properties:
+              campo:
+                type: string
+                example: quantidade_planejada
+              mensagem:
+                type: string
+
+    # ---------- Cadastros ----------
+    RoteiroEtapa:
+      type: object
+      required: [sequencia, recurso, tempo_unitario_min]
+      properties:
+        sequencia:
+          type: integer
+          minimum: 1
+        recurso:
+          type: string
+          description: Código de um recurso.
+          example: R01
+        tempo_unitario_min:
+          type: number
+          exclusiveMinimum: true
+          minimum: 0
+          description: Minutos do recurso por unidade produzida.
+          example: 12
+    Produto:
+      type: object
+      required: [codigo, descricao, unidade_medida, lote_minimo, ativo, roteiro]
+      properties:
+        codigo:
+          type: string
+          example: P001
+        descricao:
+          type: string
+          example: Urbana Conforto
+        unidade_medida:
+          type: string
+          enum: [UN, CJ, KG, M, L]
+        lote_minimo:
+          type: integer
+          minimum: 1
+        ativo:
+          type: boolean
+        roteiro:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RoteiroEtapa'
+        linha:
+          type: string
+          description: "[Extra] Código da linha de produção onde o produto é fabricado."
+          example: L1
+        categoria:
+          type: string
+          description: "[Extra] Categoria exibida na interface."
+          example: Convencional
+        descricao_detalhada:
+          type: string
+          nullable: true
+          description: "[Extra] Texto descritivo exibido na estrutura do produto."
+        tempo_total_min:
+          type: number
+          readOnly: true
+          description: "Soma dos `tempo_unitario_min` do roteiro (ex.: \"~55 min por unidade\")."
+    Material:
+      type: object
+      required: [codigo, descricao, tipo, unidade_medida]
+      properties:
+        codigo:
+          type: string
+          example: M001
+        descricao:
+          type: string
+          example: Quadro aço aro 26
+        tipo:
+          $ref: '#/components/schemas/TipoMaterial'
+        unidade_medida:
+          type: string
+          enum: [UN, KG, G, M, M2, L]
+        prazo_reposicao_dias:
+          type: integer
+          nullable: true
+          minimum: 0
+    Estoque:
+      type: object
+      required: [material, quantidade_disponivel, quantidade_reservada, estoque_minimo, data_atualizacao]
+      properties:
+        material:
+          type: string
+          example: M001
+        descricao:
+          type: string
+          readOnly: true
+        quantidade_disponivel:
+          type: number
+          minimum: 0
+        quantidade_reservada:
+          type: number
+          minimum: 0
+        estoque_minimo:
+          type: number
+          minimum: 0
+        data_atualizacao:
+          type: string
+          format: date
+        saldo_livre:
+          type: number
+          readOnly: true
+          description: quantidade_disponivel − quantidade_reservada.
+    Recurso:
+      type: object
+      required: [codigo, descricao, tipo, capacidade_horas_dia, status]
+      properties:
+        codigo:
+          type: string
+          example: R01
+        descricao:
+          type: string
+          example: Soldagem do quadro
+        tipo:
+          type: string
+          enum: [maquina, posto_manual, equipe]
+        capacidade_horas_dia:
+          type: number
+          exclusiveMinimum: true
+          minimum: 0
+          maximum: 24
+        status:
+          type: string
+          enum: [disponivel, manutencao, inativo]
+        linha:
+          type: string
+          description: "[Extra] Código da linha à qual o recurso pertence."
+          example: L1
+
+    # ---------- Estrutura e simulação ----------
+    ComponenteEstrutura:
+      type: object
+      properties:
+        material:
+          type: string
+          example: M002
+        descricao:
+          type: string
+          example: Quadro alumínio urbano
+        unidade_medida:
+          type: string
+          example: UN
+        quantidade:
+          type: number
+          exclusiveMinimum: true
+          minimum: 0
+          description: Quantidade por unidade do produto.
+        perda_percentual:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 100
+        total_para_1_un:
+          type: number
+          description: quantidade × (1 + perda_percentual / 100).
+        saldo_livre:
+          type: number
+          description: Saldo livre do material em estoque.
+        tambem_usado_em:
+          type: array
+          description: Códigos dos outros produtos que usam o material. Vazio = uso exclusivo.
+          items:
+            type: string
+    EstruturaProduto:
+      type: object
+      properties:
+        produto:
+          $ref: '#/components/schemas/Produto'
+        total_componentes:
+          type: integer
+        componentes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponenteEstrutura'
+    ComponenteSimulado:
+      type: object
+      properties:
+        material:
+          type: string
+        descricao:
+          type: string
+        unidade_medida:
+          type: string
+        quantidade_por_unidade:
+          type: number
+        perda_percentual:
+          type: number
+          nullable: true
+        necessario:
+          type: number
+        saldo_livre:
+          type: number
+        situacao:
+          $ref: '#/components/schemas/SituacaoMaterial'
+    Simulacao:
+      type: object
+      properties:
+        produto:
+          type: string
+        quantidade:
+          type: integer
+        lote_minimo:
+          type: integer
+        abaixo_lote_minimo:
+          type: boolean
+        sem_faltas:
+          type: boolean
+          description: true se o estoque cobre todos os componentes.
+        componentes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponenteSimulado'
+
+    # ---------- Pedidos ----------
+    PedidoEntrada:
+      type: object
+      required: [cliente, produto, quantidade, data_pedido, data_entrega, prioridade]
+      properties:
+        numero:
+          type: string
+          description: Opcional. Se omitido, o back-end gera o próximo número livre. Deve ser único.
+          example: PED-0009
+        cliente:
+          type: string
+          example: Cliente Alfa
+        produto:
+          type: string
+          description: Código de um produto ativo.
+          example: P001
+        quantidade:
+          type: integer
+          minimum: 1
+        data_pedido:
+          type: string
+          format: date
+        data_entrega:
+          type: string
+          format: date
+          description: Deve ser maior ou igual a `data_pedido`.
+        prioridade:
+          $ref: '#/components/schemas/Prioridade'
+        status:
+          allOf:
+            - $ref: '#/components/schemas/StatusPedido'
+          default: pendente
+    ResumoOrdem:
+      type: object
+      properties:
+        numero:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusOrdem'
+        atrasada:
+          type: boolean
+    PedidoDetalhe:
+      allOf:
+        - type: object
+          required: [numero, cliente, produto, quantidade, data_pedido, data_entrega, prioridade, status]
+          properties:
+            numero:
+              type: string
+              example: PED-0001
+            cliente:
+              type: string
+            produto:
+              type: string
+              description: Código do produto.
+            produto_descricao:
+              type: string
+              readOnly: true
+            quantidade:
+              type: integer
+            data_pedido:
+              type: string
+              format: date
+            data_entrega:
+              type: string
+              format: date
+            prioridade:
+              $ref: '#/components/schemas/Prioridade'
+            status:
+              $ref: '#/components/schemas/StatusPedido'
+        - type: object
+          description: Campos calculados.
+          properties:
+            quantidade_produzida:
+              type: integer
+              readOnly: true
+              description: Soma de `quantidade_produzida` das ordens vinculadas.
+            quantidade_a_produzir:
+              type: integer
+              readOnly: true
+              description: quantidade − quantidade_produzida (mínimo 0).
+            dias_para_entrega:
+              type: integer
+              readOnly: true
+              description: Dias entre a data de referência e `data_entrega` (negativo = vencido).
+            materiais:
+              allOf:
+                - $ref: '#/components/schemas/SituacaoPedidoMaterial'
+              readOnly: true
+            ordens:
+              type: array
+              readOnly: true
+              items:
+                $ref: '#/components/schemas/ResumoOrdem'
+
+    # ---------- Necessidades ----------
+    MaterialNecessario:
+      type: object
+      properties:
+        codigo:
+          type: string
+        descricao:
+          type: string
+        unidade_medida:
+          type: string
+        necessario:
+          type: number
+        saldo_livre:
+          type: number
+          description: Quantidade em estoque disponível para novas ordens.
+        saldo:
+          type: number
+          description: saldo_livre − necessario (negativo = falta).
+        situacao:
+          $ref: '#/components/schemas/SituacaoMaterial'
+    PedidoNecessidade:
+      type: object
+      properties:
+        numero:
+          type: string
+        cliente:
+          type: string
+        produto:
+          type: string
+        quantidade_a_produzir:
+          type: integer
+        data_entrega:
+          type: string
+          format: date
+        situacao:
+          $ref: '#/components/schemas/SituacaoPedidoMaterial'
+        materiais_em_falta:
+          type: array
+          items:
+            type: object
+            properties:
+              material:
+                type: string
+              falta:
+                type: number
+    Necessidades:
+      type: object
+      properties:
+        resumo:
+          type: object
+          properties:
+            itens_calculados:
+              type: integer
+            itens_em_falta:
+              type: integer
+            pedidos_atendiveis:
+              type: integer
+            pedidos_total:
+              type: integer
+        pedidos:
+          type: array
+          items:
+            $ref: '#/components/schemas/PedidoNecessidade'
+        materiais:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialNecessario'
+
+    # ---------- Ordens ----------
+    OrdemEntrada:
+      type: object
+      required: [produto, quantidade_planejada, linha, prioridade, data_inicio_prevista, data_fim_prevista]
+      properties:
+        numero:
+          type: string
+          description: Opcional. Se omitido, o back-end gera o próximo número livre.
+          example: OP-0008
+        produto:
+          type: string
+          example: P001
+        pedido:
+          type: string
+          nullable: true
+          description: Número do pedido atendido. Nulo = ordem para estoque. Deve ser do mesmo produto.
+        quantidade_planejada:
+          type: integer
+          minimum: 1
+          description: Deve ser maior ou igual ao `lote_minimo` do produto.
+        linha:
+          type: string
+          example: L1
+        prioridade:
+          $ref: '#/components/schemas/Prioridade'
+        data_inicio_prevista:
+          type: string
+          format: date
+        data_fim_prevista:
+          type: string
+          format: date
+        observacao:
+          type: string
+          nullable: true
+    OrdemAtualizacao:
+      type: object
+      minProperties: 1
+      properties:
+        prioridade:
+          $ref: '#/components/schemas/Prioridade'
+        linha:
+          type: string
+        sequencia_programacao:
+          type: integer
+          minimum: 1
+        data_inicio_prevista:
+          type: string
+          format: date
+        data_fim_prevista:
+          type: string
+          format: date
+        observacao:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/StatusOrdem'
+    OrdemProducao:
+      type: object
+      required:
+        - numero
+        - produto
+        - pedido
+        - prioridade
+        - sequencia_programacao
+        - quantidade_planejada
+        - quantidade_produzida
+        - data_emissao
+        - data_inicio_prevista
+        - data_fim_prevista
+        - data_conclusao
+        - status
+        - linha
+      properties:
+        numero:
+          type: string
+          example: OP-0001
+        produto:
+          type: string
+        produto_descricao:
+          type: string
+          readOnly: true
+        pedido:
+          type: string
+          nullable: true
+        cliente:
+          type: string
+          nullable: true
+          readOnly: true
+          description: Cliente do pedido vinculado.
+        data_entrega_pedido:
+          type: string
+          format: date
+          nullable: true
+          readOnly: true
+        prioridade:
+          $ref: '#/components/schemas/Prioridade'
+        linha:
+          type: string
+          description: "[Extra] Código da linha de produção."
+          example: L1
+        sequencia_programacao:
+          type: integer
+          minimum: 1
+          description: Posição na programação da linha. Única entre as ordens abertas da mesma linha.
+        quantidade_planejada:
+          type: integer
+          minimum: 1
+        quantidade_produzida:
+          type: integer
+          minimum: 0
+        quantidade_refugada:
+          type: integer
+          minimum: 0
+          description: "[Extra] Total refugado nos apontamentos."
+        data_emissao:
+          type: string
+          format: date
+        data_inicio_prevista:
+          type: string
+          format: date
+        data_fim_prevista:
+          type: string
+          format: date
+        data_conclusao:
+          type: string
+          format: date
+          nullable: true
+        status:
+          $ref: '#/components/schemas/StatusOrdem'
+        observacao:
+          type: string
+          nullable: true
+        quantidade_restante:
+          type: integer
+          readOnly: true
+        percentual_produzido:
+          type: integer
+          readOnly: true
+          minimum: 0
+          maximum: 100
+        atrasada:
+          type: boolean
+          readOnly: true
+          description: Calculado a partir da data de referência.
+        dias_de_folga:
+          type: integer
+          readOnly: true
+          nullable: true
+          description: Dias entre `data_fim_prevista` e a entrega do pedido (negativo = termina depois do prazo). Nulo se não há pedido.
+        aviso_material:
+          type: string
+          readOnly: true
+          nullable: true
+          description: Preenchido quando faltam materiais para a ordem (ex.:"Falta material - Quadro carbono speed (6 un)").
+    ApontamentoEntrada:
+      type: object
+      required: [data, quantidade_produzida]
+      properties:
+        data:
+          type: string
+          format: date
+          description: Data do apontamento.
+        quantidade_produzida:
+          type: integer
+          minimum: 1
+          description: Unidades prontas. Não pode exceder `quantidade_restante` da ordem.
+        quantidade_refugada:
+          type: integer
+          minimum: 0
+          default: 0
+    Apontamento:
+      allOf:
+        - $ref: '#/components/schemas/ApontamentoEntrada'
+        - type: object
+          required: [id, ordem]
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            ordem:
+              type: string
+              readOnly: true
+
+    # ---------- Linhas ----------
+    EtapaLinha:
+      type: object
+      properties:
+        sequencia:
+          type: integer
+        recurso:
+          type: string
+          example: R01
+        descricao:
+          type: string
+          example: Soldagem do quadro
+    LinhaDetalhe:
+      type: object
+      properties:
+        codigo:
+          type: string
+          example: L1
+        nome:
+          type: string
+          example: Linha 1 — Convencionais
+        responsavel:
+          type: string
+          example: Marcos Lima
+        capacidade_un_dia:
+          type: number
+          example: 8
+        ordens_ativas:
+          type: integer
+          readOnly: true
+        unidades_restantes:
+          type: integer
+          readOnly: true
+        carga_dias:
+          type: integer
+          readOnly: true
+          description: Dias de trabalho para o que falta produzir (unidades_restantes ÷ capacidade_un_dia, arredondado para cima).
+        etapas:
+          type: array
+          items:
+            $ref: '#/components/schemas/EtapaLinha'
+        ordens:
+          type: array
+          description: Ordens da linha (para o calendário), por sequência.
+          items:
+            $ref: '#/components/schemas/OrdemProducao'
+
+    # ---------- Dashboard ----------
+    AlertaDashboard:
+      type: object
+      properties:
+        tipo:
+          type: string
+          enum: [ordem_atrasada, ordem_fora_do_prazo, falta_material, pedido_sem_ordem]
+        mensagem:
+          type: string
+          example: OP-0004 está atrasada
+        detalhe:
+          type: string
+          example: Conclusão prevista era 2026-11-09 · faltam 8 un de Speed Pro Carbon
+        referencia:
+          type: string
+          description: Número do pedido ou da ordem relacionado.
+          example: OP-0004
+    Dashboard:
+      type: object
+      properties:
+        data_referencia:
+          type: string
+          format: date
+        kpis:
+          type: object
+          properties:
+            pedidos_pendentes:
+              type: integer
+            unidades_a_produzir:
+              type: integer
+            ordens_em_andamento:
+              type: integer
+            ordens_ativas:
+              type: integer
+            percentual_produzido:
+              type: integer
+              description: Percentual produzido das ordens ativas.
+            ordens_atrasadas:
+              type: integer
+            ordens_fora_do_prazo:
+              type: integer
+              description: Ordens que terminam depois do prazo do pedido.
+            materiais_em_falta:
+              type: integer
+            pedidos_afetados:
+              type: integer
+        alertas:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertaDashboard'
+        carga_linhas:
+          type: array
+          items:
+            type: object
+            properties:
+              linha:
+                type: string
+              nome:
+                type: string
+              carga_dias:
+                type: integer
+              ordens_ativas:
+                type: integer
+              capacidade_un_dia:
+                type: number
