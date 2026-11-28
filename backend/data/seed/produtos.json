@@ -1,74 +1,167 @@
 [
   {
     "codigo": "P001",
-    "descricao": "Bicicleta Urbana Aro 26",
+    "descricao": "Urbana Conforto",
     "unidade_medida": "UN",
-    "lote_minimo": 5,
+    "lote_minimo": 10,
     "ativo": true,
     "roteiro": [
       {
         "sequencia": 1,
         "recurso": "R01",
-        "tempo_unitario_min": 12
+        "tempo_unitario_min": 15
       },
       {
         "sequencia": 2,
+        "recurso": "R02",
+        "tempo_unitario_min": 12
+      },
+      {
+        "sequencia": 3,
         "recurso": "R03",
+        "tempo_unitario_min": 20
+      },
+      {
+        "sequencia": 4,
+        "recurso": "R04",
+        "tempo_unitario_min": 8
+      }
+    ],
+    "linha": "L1",
+    "categoria": "Convencional",
+    "codigo_comercial": "BC-100",
+    "descricao_detalhada": "Bicicleta urbana de quadro em alumínio para o dia a dia."
+  },
+  {
+    "codigo": "P002",
+    "descricao": "Passeio Aro 26",
+    "unidade_medida": "UN",
+    "lote_minimo": 10,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R01",
+        "tempo_unitario_min": 15
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R02",
+        "tempo_unitario_min": 12
+      },
+      {
+        "sequencia": 3,
+        "recurso": "R03",
+        "tempo_unitario_min": 22
+      },
+      {
+        "sequencia": 4,
+        "recurso": "R04",
+        "tempo_unitario_min": 8
+      }
+    ],
+    "linha": "L1",
+    "categoria": "Convencional",
+    "codigo_comercial": "BC-200",
+    "descricao_detalhada": "Bicicleta de passeio aro 26 com quadro de aço, para uso casual."
+  },
+  {
+    "codigo": "P003",
+    "descricao": "Speed Pro Carbon",
+    "unidade_medida": "UN",
+    "lote_minimo": 4,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R05",
+        "tempo_unitario_min": 40
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R06",
         "tempo_unitario_min": 35
       },
       {
         "sequencia": 3,
-        "recurso": "R04",
-        "tempo_unitario_min": 10
+        "recurso": "R07",
+        "tempo_unitario_min": 55
+      },
+      {
+        "sequencia": 4,
+        "recurso": "R08",
+        "tempo_unitario_min": 30
       }
-    ]
+    ],
+    "linha": "L2",
+    "categoria": "Profissional",
+    "codigo_comercial": "BP-300",
+    "descricao_detalhada": "Bicicleta de estrada em carbono, leve e aerodinâmica, para competição."
   },
   {
-    "codigo": "P002",
-    "descricao": "Mountain Bike Aro 29",
+    "codigo": "P004",
+    "descricao": "MTB Pro Trail",
     "unidade_medida": "UN",
     "lote_minimo": 5,
     "ativo": true,
     "roteiro": [
       {
         "sequencia": 1,
-        "recurso": "R01",
-        "tempo_unitario_min": 15
+        "recurso": "R05",
+        "tempo_unitario_min": 45
       },
       {
         "sequencia": 2,
-        "recurso": "R03",
-        "tempo_unitario_min": 50
-      },
-      {
-        "sequencia": 3,
-        "recurso": "R04",
-        "tempo_unitario_min": 15
-      }
-    ]
-  },
-  {
-    "codigo": "P003",
-    "descricao": "Bicicleta Infantil Aro 20",
-    "unidade_medida": "UN",
-    "lote_minimo": 5,
-    "ativo": true,
-    "roteiro": [
-      {
-        "sequencia": 1,
-        "recurso": "R01",
-        "tempo_unitario_min": 10
-      },
-      {
-        "sequencia": 2,
-        "recurso": "R03",
+        "recurso": "R06",
         "tempo_unitario_min": 30
       },
       {
         "sequencia": 3,
-        "recurso": "R04",
-        "tempo_unitario_min": 10
+        "recurso": "R07",
+        "tempo_unitario_min": 55
+      },
+      {
+        "sequencia": 4,
+        "recurso": "R08",
+        "tempo_unitario_min": 30
       }
-    ]
+    ],
+    "linha": "L2",
+    "categoria": "Profissional",
+    "codigo_comercial": "BP-400",
+    "descricao_detalhada": "Mountain bike aro 29 com quadro de alumínio e suspensão dianteira."
+  },
+  {
+    "codigo": "P005",
+    "descricao": "Triciclo Cargo",
+    "unidade_medida": "UN",
+    "lote_minimo": 3,
+    "ativo": true,
+    "roteiro": [
+      {
+        "sequencia": 1,
+        "recurso": "R09",
+        "tempo_unitario_min": 80
+      },
+      {
+        "sequencia": 2,
+        "recurso": "R10",
+        "tempo_unitario_min": 50
+      },
+      {
+        "sequencia": 3,
+        "recurso": "R11",
+        "tempo_unitario_min": 70
+      },
+      {
+        "sequencia": 4,
+        "recurso": "R12",
+        "tempo_unitario_min": 40
+      }
+    ],
+    "linha": "L3",
+    "categoria": "Triciclo",
+    "codigo_comercial": "TR-500",
+    "descricao_detalhada": "Triciclo de carga com cesto e estrutura reforçada em aço."
   }
 ]

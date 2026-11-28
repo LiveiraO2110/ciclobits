@@ -1,121 +1,212 @@
 [
   {
     "codigo": "M001",
-    "descricao": "Quadro de bicicleta urbana aro 26",
+    "descricao": "Quadro aço aro 26",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 12
+    "prazo_reposicao_dias": 14
   },
   {
     "codigo": "M002",
-    "descricao": "Quadro MTB aro 29",
+    "descricao": "Quadro alumínio urbano",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 15
+    "prazo_reposicao_dias": 14
   },
   {
     "codigo": "M003",
-    "descricao": "Quadro infantil aro 20",
+    "descricao": "Quadro carbono speed",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 12
+    "prazo_reposicao_dias": 21
   },
   {
     "codigo": "M004",
-    "descricao": "Roda aro 26 montada",
+    "descricao": "Quadro alumínio MTB 29",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 10
+    "prazo_reposicao_dias": 14
   },
   {
     "codigo": "M005",
-    "descricao": "Roda aro 29 montada",
+    "descricao": "Estrutura de aço para triciclo",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 12
+    "prazo_reposicao_dias": 14
   },
   {
     "codigo": "M006",
-    "descricao": "Roda aro 20 montada",
+    "descricao": "Garfo rígido aço",
     "tipo": "componente",
     "unidade_medida": "UN",
     "prazo_reposicao_dias": 10
   },
   {
     "codigo": "M007",
-    "descricao": "Kit transmissão urbana",
+    "descricao": "Garfo com suspensão MTB",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 8
+    "prazo_reposicao_dias": 15
   },
   {
     "codigo": "M008",
-    "descricao": "Kit transmissão MTB",
+    "descricao": "Garfo carbono speed",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 21
+  },
+  {
+    "codigo": "M009",
+    "descricao": "Roda aro 26",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M010",
+    "descricao": "Roda aro 700",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M011",
+    "descricao": "Roda aro 29",
     "tipo": "componente",
     "unidade_medida": "UN",
     "prazo_reposicao_dias": 12
   },
   {
-    "codigo": "M009",
-    "descricao": "Kit transmissão infantil",
-    "tipo": "componente",
-    "unidade_medida": "UN",
-    "prazo_reposicao_dias": 8
-  },
-  {
-    "codigo": "M010",
-    "descricao": "Guidão universal",
-    "tipo": "componente",
-    "unidade_medida": "UN",
-    "prazo_reposicao_dias": 7
-  },
-  {
-    "codigo": "M011",
-    "descricao": "Selim universal",
-    "tipo": "componente",
-    "unidade_medida": "UN",
-    "prazo_reposicao_dias": 7
-  },
-  {
     "codigo": "M012",
-    "descricao": "Kit freios V-brake",
+    "descricao": "Pneu aro 26",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 9
+    "prazo_reposicao_dias": 7
   },
   {
     "codigo": "M013",
-    "descricao": "Kit freios a disco",
+    "descricao": "Pneu 700x25",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 14
+    "prazo_reposicao_dias": 7
   },
   {
     "codigo": "M014",
-    "descricao": "Tinta em pó para acabamento",
-    "tipo": "materia_prima",
-    "unidade_medida": "KG",
-    "prazo_reposicao_dias": 6
+    "descricao": "Pneu 29x2.2",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
   },
   {
     "codigo": "M015",
-    "descricao": "Caixa de papelão para bicicleta",
-    "tipo": "embalagem",
+    "descricao": "Câmara de ar aro 26",
+    "tipo": "componente",
     "unidade_medida": "UN",
     "prazo_reposicao_dias": 5
   },
   {
     "codigo": "M016",
-    "descricao": "Parafusos e fixadores",
+    "descricao": "Guidão reto",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 4
+    "prazo_reposicao_dias": 7
   },
   {
     "codigo": "M017",
-    "descricao": "Garfo com suspensão MTB",
+    "descricao": "Guidão drop (speed)",
     "tipo": "componente",
     "unidade_medida": "UN",
-    "prazo_reposicao_dias": 15
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M018",
+    "descricao": "Selim conforto",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M019",
+    "descricao": "Selim esportivo",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M020",
+    "descricao": "Par de pedais plataforma",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M021",
+    "descricao": "Par de pedais clip",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M022",
+    "descricao": "Freio V-brake (jogo)",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 7
+  },
+  {
+    "codigo": "M023",
+    "descricao": "Freio a disco hidráulico (jogo)",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 12
+  },
+  {
+    "codigo": "M024",
+    "descricao": "Kit transmissão 1x7",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 10
+  },
+  {
+    "codigo": "M025",
+    "descricao": "Kit transmissão 2x11",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 14
+  },
+  {
+    "codigo": "M026",
+    "descricao": "Kit transmissão 1x12",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 14
+  },
+  {
+    "codigo": "M027",
+    "descricao": "Corrente",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 5
+  },
+  {
+    "codigo": "M028",
+    "descricao": "Cesto de carga",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": null
+  },
+  {
+    "codigo": "M029",
+    "descricao": "Kit parafusos e fixação",
+    "tipo": "componente",
+    "unidade_medida": "UN",
+    "prazo_reposicao_dias": 3
+  },
+  {
+    "codigo": "M030",
+    "descricao": "Tinta epóxi",
+    "tipo": "materia_prima",
+    "unidade_medida": "L",
+    "prazo_reposicao_dias": 5
   }
 ]

@@ -1,30 +1,342 @@
 [
   {
-    "codigo": "R01",
-    "descricao": "Corte e preparação de quadros",
-    "tipo": "maquina",
-    "capacidade_horas_dia": 8,
-    "status": "disponivel"
+    "produto": "P001",
+    "componentes": [
+      {
+        "material": "M002",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M012",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M015",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M016",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M018",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
+      }
+    ]
   },
   {
-    "codigo": "R02",
-    "descricao": "Pintura e acabamento",
-    "tipo": "maquina",
-    "capacidade_horas_dia": 8,
-    "status": "manutencao"
+    "produto": "P002",
+    "componentes": [
+      {
+        "material": "M001",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M012",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M015",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M016",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M018",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
+      }
+    ]
   },
   {
-    "codigo": "R03",
-    "descricao": "Montagem de bicicletas",
-    "tipo": "posto_manual",
-    "capacidade_horas_dia": 8,
-    "status": "disponivel"
+    "produto": "P003",
+    "componentes": [
+      {
+        "material": "M003",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M008",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M010",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M013",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M017",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M019",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M021",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M023",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M025",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      }
+    ]
   },
   {
-    "codigo": "R04",
-    "descricao": "Inspeção e testes",
-    "tipo": "equipe",
-    "capacidade_horas_dia": 8,
-    "status": "disponivel"
+    "produto": "P004",
+    "componentes": [
+      {
+        "material": "M004",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M007",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M011",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M014",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M016",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M019",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M023",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M026",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
+      }
+    ]
+  },
+  {
+    "produto": "P005",
+    "componentes": [
+      {
+        "material": "M005",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M012",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M015",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M016",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M018",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M028",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.6,
+        "perda_percentual": null
+      }
+    ]
   }
 ]

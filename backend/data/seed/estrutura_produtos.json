@@ -3,49 +3,69 @@
     "produto": "P001",
     "componentes": [
       {
-        "material": "M001",
+        "material": "M002",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
-        "material": "M004",
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
         "quantidade": 2,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M007",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M010",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M011",
-        "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
         "material": "M012",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M014",
-        "quantidade": 0.3,
-        "perda_percentual": 5
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M015",
-        "quantidade": 1,
-        "perda_percentual": 0
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M016",
-        "quantidade": 12,
-        "perda_percentual": 2
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M018",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
       }
     ]
   },
@@ -53,54 +73,69 @@
     "produto": "P002",
     "componentes": [
       {
-        "material": "M002",
+        "material": "M001",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
-        "material": "M005",
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
         "quantidade": 2,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
-        "material": "M008",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M010",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M011",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M013",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M014",
-        "quantidade": 0.4,
-        "perda_percentual": 5
+        "material": "M012",
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M015",
-        "quantidade": 1,
-        "perda_percentual": 0
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M016",
-        "quantidade": 16,
-        "perda_percentual": 2
+        "quantidade": 1,
+        "perda_percentual": null
       },
       {
-        "material": "M017",
+        "material": "M018",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
       }
     ]
   },
@@ -110,47 +145,197 @@
       {
         "material": "M003",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
-        "material": "M006",
-        "quantidade": 2,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M009",
+        "material": "M008",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
       },
       {
         "material": "M010",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M013",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M017",
         "quantidade": 1,
-        "perda_percentual": 0
+        "perda_percentual": null
+      },
+      {
+        "material": "M019",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M021",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M023",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M025",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      }
+    ]
+  },
+  {
+    "produto": "P004",
+    "componentes": [
+      {
+        "material": "M004",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M007",
+        "quantidade": 1,
+        "perda_percentual": null
       },
       {
         "material": "M011",
-        "quantidade": 1,
-        "perda_percentual": 0
-      },
-      {
-        "material": "M012",
-        "quantidade": 1,
-        "perda_percentual": 0
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M014",
-        "quantidade": 0.2,
-        "perda_percentual": 5
-      },
-      {
-        "material": "M015",
-        "quantidade": 1,
-        "perda_percentual": 0
+        "quantidade": 2,
+        "perda_percentual": null
       },
       {
         "material": "M016",
-        "quantidade": 10,
-        "perda_percentual": 2
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M019",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M023",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M026",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.25,
+        "perda_percentual": null
+      }
+    ]
+  },
+  {
+    "produto": "P005",
+    "componentes": [
+      {
+        "material": "M005",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M006",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M009",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M012",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M015",
+        "quantidade": 3,
+        "perda_percentual": null
+      },
+      {
+        "material": "M016",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M018",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M020",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M022",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M024",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M027",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M028",
+        "quantidade": 1,
+        "perda_percentual": null
+      },
+      {
+        "material": "M029",
+        "quantidade": 2,
+        "perda_percentual": null
+      },
+      {
+        "material": "M030",
+        "quantidade": 0.6,
+        "perda_percentual": null
       }
     ]
   }

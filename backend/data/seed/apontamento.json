@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "ordem": "OP-0001",
+    "data": "2026-11-04",
+    "quantidade_produzida": 10,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 2,
+    "ordem": "OP-0001",
+    "data": "2026-11-06",
+    "quantidade_produzida": 9,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 3,
+    "ordem": "OP-0001",
+    "data": "2026-11-10",
+    "quantidade_produzida": 9,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 4,
+    "ordem": "OP-0004",
+    "data": "2026-11-05",
+    "quantidade_produzida": 2,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 5,
+    "ordem": "OP-0004",
+    "data": "2026-11-09",
+    "quantidade_produzida": 2,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 6,
+    "ordem": "OP-0007",
+    "data": "2026-10-27",
+    "quantidade_produzida": 3,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 7,
+    "ordem": "OP-0007",
+    "data": "2026-10-30",
+    "quantidade_produzida": 3,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 8,
+    "ordem": "OP-0008",
+    "data": "2026-10-14",
+    "quantidade_produzida": 5,
+    "quantidade_refugada": 0
+  },
+  {
+    "id": 9,
+    "ordem": "OP-0008",
+    "data": "2026-10-16",
+    "quantidade_produzida": 4,
+    "quantidade_refugada": 1
+  }
+]
