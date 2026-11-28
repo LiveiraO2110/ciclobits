@@ -1,16 +1,19 @@
 package model
 
-import "uuid"
+import "github.com/google/uuid"
 
 type EstruturaProduto struct {
-	ID         uuid.UUID
-	Produto    Produto
-	Componente []Componente
+	ID            uuid.UUID
+	ProdutoCodigo string
+	Produto       Produto
+	Componente    []Componente
 }
 
 type Componente struct {
-	ID              uuid.UUID
-	Material        Material
-	Quantidade      float32
-	PerdaPercentual *int8
+	ID                 uuid.UUID
+	EstruturaProdutoID uuid.UUID
+	MaterialCodigo     string
+	Material           Material
+	Quantidade         float32
+	PerdaPercentual    *int8
 }

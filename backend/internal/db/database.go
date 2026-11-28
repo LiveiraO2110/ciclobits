@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewDb() (*gorm.DB){
+func NewDb() *gorm.DB {
 	dsn := os.Getenv("DB_DSN")
 	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	if err != nil {

@@ -1,30 +1,38 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type OrdemProducao struct {
-	Numero              string
-	Produto             Produto
-	Pedido              *Pedido
-	Prioridade          string
-	SequenciaProgamacao int16
-	QuantidadePlanejada int16
-	QuantidadeProduzida *int16
-	DataEmissao         time.Time
-	DataInicioPrevista  time.Time
-	DataFimPrevista     time.Time
-	DataConclusao       *time.Time
-	Status              string
-	Observacao          *string
-	CratedAt            time.Time
-	UpdateAt            time.Time
-	DeleteAt            time.Time
+	Numero               string `gorm:"primaryKey"`
+	LinhaCodigo          string
+	LinhaProducao        LinhaProducao `gorm:"foreignKey:LinhaCodigo"`
+	ProdutoCodigo        string
+	Produto              Produto
+	PedidoNumero         *string
+	Pedido               *Pedido
+	Prioridade           string
+	SequenciaProgramacao int16
+	QuantidadePlanejada  int16
+	QuantidadeProduzida  *int16
+	DataEmissao          time.Time
+	DataInicioPrevista   time.Time
+	DataFimPrevista      time.Time
+	DataConclusao        *time.Time
+	Status               string
+	Observacao           *string
+	CreatedAt            time.Time
+	UpdatedAt            time.Time
+	DeletedAt            gorm.DeletedAt `gorm:"index"`
 }
 
 const (
-	OrdemProducaoPlanejada = "planejada" 
-	OrdemProducaoLiberada = "liberada"
+	OrdemProducaoPlanejada  = "planejada"
+	OrdemProducaoLiberada   = "liberada"
 	OrdemProducaoEmProducao = "em_producao"
-	OrdemProducaoCancelada = "cancelada"
-	OrdemProducaoConcluida = "concluida"
+	OrdemProducaoCancelada  = "cancelada"
+	OrdemProducaoConcluida  = "concluida"
 )

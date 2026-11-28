@@ -9,13 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
+
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loanding .env file")
-	}	
+		log.Fatal("Error ao carregar as variáveis de ambiente")
+	}
 }
-
 
 func main() {
 
@@ -24,5 +24,5 @@ func main() {
 	r := gin.Default()
 	routes.InitRoutes(app, r)
 
-	log.Fatal(r.Run()) // listen and serve on 0.0.0.0:8080
+	log.Fatal(r.Run())
 }

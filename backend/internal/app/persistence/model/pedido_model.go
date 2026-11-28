@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 const (
 	PrioridadeAlta  = "alta"
@@ -9,15 +13,16 @@ const (
 )
 
 type Pedido struct {
-	Numero      string
-	Cliente     string
-	Produto     Produto
-	Quantidade  int16
-	DataPedido  time.Time
-	DataEntrega time.Time
-	Prioridade  string
-	Status      string
-	CratedAt    time.Time
-	UpdateAt    time.Time
-	DeleteAt    time.Time
+	Numero        string `gorm:"primaryKey"`
+	Cliente       string
+	ProdutoCodigo string
+	Produto       Produto
+	Quantidade    int16
+	DataPedido    time.Time
+	DataEntrega   time.Time
+	Prioridade    string
+	Status        string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	DeletedAt     gorm.DeletedAt `gorm:"index"`
 }

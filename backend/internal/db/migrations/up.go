@@ -1,14 +1,13 @@
 package main
 
 import (
-
 	"github.com/joho/godotenv"
 )
 
-func init(){
+func init() {
 	godotenv.Load()
 }
 
-func main(){
-	
+func main() {
+
 }

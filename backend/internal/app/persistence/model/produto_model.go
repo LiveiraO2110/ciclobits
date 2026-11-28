@@ -2,30 +2,31 @@ package model
 
 import (
 	"time"
-	"uuid"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Produto struct {
-	Codigo        string `gorm:"primaryKey;size:4;check:chk_produto_codigo,codigo ~ '^P[0-9]{3}$'" json:"codigo"`
-	Descricao     string
-	UnidadeMedida string
-	LoteMinimo    int16
-	Ativo         bool
-	Roteiro       []RoteiroEtapa
-	CratedAt      time.Time
-	UpdateAt      time.Time
-	DeleteAt      time.Time
+	Codigo     string `gorm:"primaryKey;size:4;check:chk_produto_codigo,codigo GLOB 'P[0-9][0-9][0-9]'" json:"codigo"`
+	Descricao  string
+	LoteMinimo int16
+	Ativo      bool
+	Roteiro    []RoteiroEtapa
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	DeletedAt  gorm.DeletedAt `gorm:"index"`
 }
 
 type RoteiroEtapa struct {
 	ID               uuid.UUID
 	ProdutoCodigo    string
+	Produto          Produto
 	Sequencia        int
-	Recurso          string
+	RecursoCodigo    string
+	Recurso          Recurso
 	TempoUnitarioMin float64
-	CratedAt         time.Time
-	UpdateAt         time.Time
-	DeleteAt         time.Time
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	DeletedAt        gorm.DeletedAt `gorm:"index"`
 }
-
-
