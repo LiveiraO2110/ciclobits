@@ -44,7 +44,7 @@ ciclobits/
 ```
 
 - `backend/`: API REST, regras de negócio, persistência e inicialização do banco de dados.
-- `frontend/`: interface web desenvolvida com React e TypeScript.
+- `frontend/`: interface web desenvolvida com Vue e JavaScript.
 
 ## Base de dados
 
